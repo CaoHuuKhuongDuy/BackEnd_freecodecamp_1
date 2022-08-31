@@ -24,10 +24,36 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api/2015-12-25",function(req,res){
-  let time = new Date().toString();
-  // let time = "ssdsdd";
-  res.send(time);
+
+function checkInterger(s)
+{
+  return Number.isInteger(Number(s));
+}
+
+let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+let days = ["Sun","Mon","Tue","Thu","Wed","Fri","Sat"];
+
+app.get("/api/:info",function (req,res){
+  let s = req.params.info;
+  let date = new Date(s);
+  let time = {
+    hours : date.getHours().toString(),
+    minute : date.getMinutes().toString(),
+    second : date.getSeconds().toString()
+  }
+  let Time_Date = `${days[date.getDay()]}, ${date.getDay()} ${months[date.getMonth()]} ${date.getFullYear()} `
+  for (let i in time)
+  {
+    if (time[i].length < 2) time[i] = '0' + time[i];
+    Time_Date = Time_Date + time[i];
+    // console.log(time[i]);
+    if (i != "second") Time_Date = Time_Date + ":";
+    // break;
+  }
+  // console.log(Time_Date);
+  // console.log(time.hours)
+  Time_Date = Time_Date + " GMT";
+  res.json({unix : date.getTime(),utc : Time_Date});
 })
 
 
