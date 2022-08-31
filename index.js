@@ -42,7 +42,6 @@ function get_Date(s)
 
 function get_Time_Date(s = "")
 {
-  if (checkInterger(s)) s = Number(s);
   let date = get_Date(s);
   if (Number.isNaN(date.getDay())) return {error : "Invalid Date" }
   let time = {
