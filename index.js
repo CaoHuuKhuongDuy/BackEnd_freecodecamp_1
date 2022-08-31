@@ -33,10 +33,17 @@ function checkInterger(s)
 let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 let days = ["Sun","Mon","Tue","Thu","Wed","Fri","Sat"];
 
-app.get("/api/:info",function (req,res){
-  let s = req.params.info;
+function get_Date(s)
+{
+  if (s == "") return new Date();
   if (checkInterger(s)) s = Number(s);
-  let date = new Date(s);
+  return new Date(s);
+}
+
+function get_Time_Date(s = "")
+{
+  if (checkInterger(s)) s = Number(s);
+  let date = get_Date(s);
   let time = {
     hours : date.getUTCHours().toString(),
     minute : date.getUTCMinutes().toString(),
@@ -50,7 +57,12 @@ app.get("/api/:info",function (req,res){
       if (i != "second") Time_Date = Time_Date + ":";
     }
   Time_Date = Time_Date + " GMT";
-  res.json({unix : date.getTime(),utc : Time_Date});
+  return {unix : date.getTime(),utc : Time_Date};
+}
+
+app.get("/api/:info",function (req,res){
+  let s = req.params.info;
+  res.json(get_Time_Date(s));
 })
 
 
