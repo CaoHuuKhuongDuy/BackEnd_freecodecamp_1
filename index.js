@@ -41,17 +41,18 @@ app.get("/api/:info",function (req,res){
     minute : date.getMinutes().toString(),
     second : date.getSeconds().toString()
   }
-  let Time_Date = `${days[date.getDay()]}, ${date.getDay()} ${months[date.getMonth()]} ${date.getFullYear()} `
-  for (let i in time)
+  console.log()
+  let Time_Date = `${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()} `
+  function add_time()
   {
-    if (time[i].length < 2) time[i] = '0' + time[i];
-    Time_Date = Time_Date + time[i];
-    // console.log(time[i]);
-    if (i != "second") Time_Date = Time_Date + ":";
-    // break;
-  }
-  // console.log(Time_Date);
-  // console.log(time.hours)
+    for (let i in time)
+      {
+        if (time[i].length < 2) time[i] = '0' + time[i];
+        Time_Date = Time_Date + time[i];
+        if (i != "second") Time_Date = Time_Date + ":";
+      }
+    }
+  Time_Date = Time_Date + "00:00:00"    
   Time_Date = Time_Date + " GMT";
   res.json({unix : date.getTime(),utc : Time_Date});
 })
