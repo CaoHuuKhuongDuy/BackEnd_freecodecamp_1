@@ -31,7 +31,7 @@ function checkInterger(s)
 }
 
 let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-let days = ["Sun","Mon","Tue","Thu","Wed","Fri","Sat"];
+let days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
 function get_Date(s)
 {
@@ -59,6 +59,11 @@ function get_Time_Date(s = "")
   Time_Date = Time_Date + " GMT";
   return {unix : date.getTime(),utc : Time_Date};
 }
+
+app.get("/api",function (req,res){
+  let date = new Date();
+  res.json(get_Time_Date());
+})
 
 app.get("/api/:info",function (req,res){
   let s = req.params.info;
