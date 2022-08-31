@@ -44,6 +44,7 @@ function get_Time_Date(s = "")
 {
   if (checkInterger(s)) s = Number(s);
   let date = get_Date(s);
+  if (Number.isNaN(date.getDay())) return {error : "Invalid Date" }
   let time = {
     hours : date.getUTCHours().toString(),
     minute : date.getUTCMinutes().toString(),
@@ -60,11 +61,11 @@ function get_Time_Date(s = "")
   return {unix : date.getTime(),utc : Time_Date};
 }
 
+
 app.get("/api",function (req,res){
   let date = new Date();
   res.json(get_Time_Date());
 })
-
 app.get("/api/:info",function (req,res){
   let s = req.params.info;
   res.json(get_Time_Date(s));
