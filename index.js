@@ -35,24 +35,20 @@ let days = ["Sun","Mon","Tue","Thu","Wed","Fri","Sat"];
 
 app.get("/api/:info",function (req,res){
   let s = req.params.info;
+  if (checkInterger(s)) s = Number(s);
   let date = new Date(s);
   let time = {
-    hours : date.getHours().toString(),
-    minute : date.getMinutes().toString(),
-    second : date.getSeconds().toString()
+    hours : date.getUTCHours().toString(),
+    minute : date.getUTCMinutes().toString(),
+    second : date.getUTCSeconds().toString()
   }
-  console.log()
   let Time_Date = `${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()} `
-  function add_time()
-  {
-    for (let i in time)
-      {
-        if (time[i].length < 2) time[i] = '0' + time[i];
-        Time_Date = Time_Date + time[i];
-        if (i != "second") Time_Date = Time_Date + ":";
-      }
+  for (let i in time)
+    {
+      if (time[i].length < 2) time[i] = '0' + time[i];
+      Time_Date = Time_Date + time[i];
+      if (i != "second") Time_Date = Time_Date + ":";
     }
-  Time_Date = Time_Date + "00:00:00"    
   Time_Date = Time_Date + " GMT";
   res.json({unix : date.getTime(),utc : Time_Date});
 })
