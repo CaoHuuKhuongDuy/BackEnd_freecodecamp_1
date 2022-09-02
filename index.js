@@ -65,10 +65,23 @@ function get_Time_Date(s = "")
 }
 
 
-app.get("/api",function (req,res){
+// app.get("/api",function (req,res){
+//   let date = new Date();
+//   res.json(get_Time_Date());
+// })
+
+app.get('/api', (req,res) =>{
   let date = new Date();
-  res.json(get_Time_Date());
-})
+  
+  let result = {
+    unix: date.getTime(),
+    utc: date.toUTCString()
+  }
+
+  res.send(result);
+});
+
+
 app.get("/api/:info",function (req,res){
   let s = req.params.info;
   res.json(get_Time_Date(s));
