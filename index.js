@@ -24,67 +24,33 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-
-function checkInterger(s)
-{
-  return Number.isInteger(Number(s));
-}
-
-let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-let days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-
 function get_Date(s)
 {
   if (s == "") return new Date();
-  if (checkInterger(s)) s = Number(s);
+  if (!isNaN(Number(s))) s = Number(s);
   return new Date(s);
 }
 
-function get_Time_Date(s = "")
+function get_result(s = "")
 {
   let date = get_Date(s);
-  if (Number.isNaN(date.getDay())) return {error : "Invalid Date" }
-  let time = {
-    hours : date.getUTCHours().toString(),
-    minute : date.getUTCMinutes().toString(),
-    second : date.getUTCSeconds().toString()
+  let res = {
+    unix : date.getTime(),
+    utc : date.toUTCString()
   }
-  function modify(s)
-  {
-    if (s.length < 2) s = '0' + s;
-    return s;
-  }
-  let Time_Date = `${days[date.getDay()]}, ${modify(date.getDate().toString())} ${months[date.getMonth()]} ${date.getFullYear()} `
-  for (let i in time)
-    {
-      Time_Date = Time_Date + modify(time[i]);
-      if (i != "second") Time_Date = Time_Date + ":";
-    }
-  Time_Date = Time_Date + " GMT";
-  return {unix : date.getTime(),utc : Time_Date};
+  console.log(typeof res.unix);
+  if (res.utc == "Invalid Date") return { error : "Invalid Date" }
+  return res;
 }
 
-
-// app.get("/api",function (req,res){
-//   let date = new Date();
-//   res.json(get_Time_Date());
-// })
-
 app.get('/api', (req,res) =>{
-  let date = new Date();
-  
-  let result = {
-    unix: date.getTime(),
-    utc: date.toUTCString()
-  }
-
-  res.send(result);
+  res.json(get_result());
 });
 
 
 app.get("/api/:info",function (req,res){
   let s = req.params.info;
-  res.json(get_Time_Date(s));
+  res.json(get_result(s));
 })
 
 
