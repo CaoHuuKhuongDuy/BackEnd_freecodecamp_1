@@ -49,11 +49,15 @@ function get_Time_Date(s = "")
     minute : date.getUTCMinutes().toString(),
     second : date.getUTCSeconds().toString()
   }
-  let Time_Date = `${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()} `
+  function modify(s)
+  {
+    if (s.length < 2) s = '0' + s;
+    return s;
+  }
+  let Time_Date = `${days[date.getDay()]}, ${modify(date.getDate().toString())} ${months[date.getMonth()]} ${date.getFullYear()} `
   for (let i in time)
     {
-      if (time[i].length < 2) time[i] = '0' + time[i];
-      Time_Date = Time_Date + time[i];
+      Time_Date = Time_Date + modify(time[i]);
       if (i != "second") Time_Date = Time_Date + ":";
     }
   Time_Date = Time_Date + " GMT";
