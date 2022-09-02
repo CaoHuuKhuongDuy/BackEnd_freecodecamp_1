@@ -38,7 +38,6 @@ function get_result(s = "")
     unix : date.getTime(),
     utc : date.toUTCString()
   }
-  console.log(typeof res.unix);
   if (res.utc == "Invalid Date") return { error : "Invalid Date" }
   return res;
 }
